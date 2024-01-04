@@ -13,6 +13,7 @@ Future<CheckoutResponse?> redirectToCheckout({
   String? stripeAccountId,
   String? successUrl,
   String? canceledUrl,
+  String? initialPageUrl,
 }) {
   return stripe.redirectToCheckout(
     context: context,
@@ -21,5 +22,6 @@ Future<CheckoutResponse?> redirectToCheckout({
     stripeAccountId: stripeAccountId,
     successUrl: successUrl,
     canceledUrl: canceledUrl,
+    initialPageUrl: initialPageUrl
   );
 }

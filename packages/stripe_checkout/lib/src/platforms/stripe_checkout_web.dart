@@ -9,6 +9,7 @@ Future<CheckoutResponse> redirectToCheckout({
   String? stripeAccountId,
   String? successUrl,
   String? canceledUrl,
+  String? initialPageUrl,
 }) async {
   final options = stripe_js.StripeServerCheckoutOptions(sessionId: sessionId);
   final stripeOption = stripe_js.StripeOptions();

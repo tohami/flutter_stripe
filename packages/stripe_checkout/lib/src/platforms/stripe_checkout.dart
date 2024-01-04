@@ -19,6 +19,7 @@ class CheckoutPage extends StatefulWidget {
     required this.canceledUrl,
     this.publishableKey,
     this.stripeAccountId,
+    this.initialPageUrl
   })  : assert(() {
           assert(
             successUrl.startsWith('https'),
@@ -52,6 +53,10 @@ class CheckoutPage extends StatefulWidget {
   /// this one, [onCompleted] will return as canceled
   final String canceledUrl;
 
+  /// The URL to which the webView initially load.
+  /// any simple page with <script src="https://js.stripe.com/v3/"></script> in the header can fit
+  final String? initialPageUrl;
+
   /// Stripe publishable key
   final String? publishableKey;
 
@@ -64,10 +69,11 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   late WebViewController _webViewController;
 
-  static const String _baseUrl = 'https://stripe.com/base_url/';
 
   @override
   void initState() {
+    String baseUrl = widget.initialPageUrl ?? 'https://marcinusx.github.io/test1/index.html' ;
+
     super.initState();
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -87,13 +93,13 @@ class _CheckoutPageState extends State<CheckoutPage> {
             return NavigationDecision.navigate;
           },
           onPageFinished: (String url) {
-            if (url == _baseUrl) {
+            if (url == baseUrl) {
               _redirectToStripe(widget.sessionId);
             }
           },
         ),
       )
-      ..loadRequest(Uri.parse(_baseUrl));
+      ..loadRequest(Uri.parse(baseUrl));
   }
 
   @override
